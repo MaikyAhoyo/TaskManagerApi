@@ -1,14 +1,23 @@
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  //cambiar a false despues del deployment
-  @ManyToOne(() => User, (user) => user.tasks, { nullable: true })
+  @ManyToOne(() => User, (user) => user.tasks, { nullable: false })
+  @JoinColumn({ name: 'userId' })
   user: User;
+
+  @Column({ default: 1 })
+  userId: number;
 
   @Column()
   title: string;
