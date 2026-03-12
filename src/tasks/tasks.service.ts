@@ -13,20 +13,38 @@ export class TasksService {
   ) {}
 
   async create(createTaskDto: CreateTaskDto) {
-    const newTask = this.taskRepository.create(createTaskDto);
+    const { userId, ...taskData } = createTaskDto;
+    const newTask = this.taskRepository.create({
+      ...taskData,
+      user: { id: userId },
+    });
+
     return await this.taskRepository.save(newTask);
   }
 
   async findAll() {
-    return await this.taskRepository.find();
+    return await this.taskRepository.find({
+      relations: ['user'],
+    });
   }
 
   async findOne(id: number) {
-    const task = await this.taskRepository.findOneBy({ id });
+    const task = await this.taskRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
     if (!task) {
       throw new NotFoundException(`La tarea con ID ${id} no existe`);
     }
     return task;
+  }
+
+  async findByUserId(userId: number) {
+    return await this.taskRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user'],
+    });
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {

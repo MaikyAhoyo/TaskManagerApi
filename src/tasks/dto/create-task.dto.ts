@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  MinLength,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString({ message: 'El título debe ser un texto' })
@@ -9,4 +15,8 @@ export class CreateTaskDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsNumber({}, { message: 'El ID del usuario debe ser un número' })
+  @IsNotEmpty({ message: 'El ID del usuario es requerido' })
+  userId: number;
 }

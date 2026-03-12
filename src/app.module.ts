@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
       ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
