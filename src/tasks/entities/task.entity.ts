@@ -6,7 +6,8 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.tasks, { nullable: false })
+  //cambiar a false despues del deployment
+  @ManyToOne(() => User, (user) => user.tasks, { nullable: true })
   user: User;
 
   @Column()
